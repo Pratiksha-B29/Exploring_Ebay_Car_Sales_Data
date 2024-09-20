@@ -1,0 +1,1557 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Basics}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \# Analyzing Used Cars Listing on eBay Kleinanzeigen
+
+    We will be working with a datatset of used cars from eBay
+Kleinanzeigen,a classified section of the German eBay website.
+
+    The dataset was originally scraped and uploaded to
+\href{https://www.kaggle.com/orgesleka/used-cars-database/data}{Kaggle}.
+by user orgesleka. The original dataset isn't available on Kaggle
+anymore, but you can find it
+\href{https://data.world/data-society/used-cars-data}{here}.
+
+    Data dictionary for the dataset: \ldots{}
+
+\begin{itemize}
+\item
+  dateCrawled - When the ad was first crawled. All field-values are
+  taken from this date. \ldots{}
+\item
+  name - Name of the car.
+\item
+  seller - Whether the seller is private or a dealer.
+\item
+  offerType - The type of listing.
+\item
+  price - The listed selling price of the car.
+\item
+  abtest - Whether the listing is included in an A/B test.
+\item
+  vehicleType - The type of vehicle.
+\item
+  yearOfRegistration - The year in which the car was first registered.
+\item
+  gearbox - The type of transmission.
+\item
+  powerPS - The power of the car in PS.
+\item
+  model - The car model name.
+\item
+  odometer - How many kilometers the car has driven.
+\item
+  monthOfRegistration - The month in which the car was first registered.
+\item
+  fuelType - What type of fuel the car uses.
+\item
+  brand - The brand of the car.
+\item
+  notRepairedDamage - If the car has a damage which is not yet repaired.
+\item
+  dateCreated - The date the eBay listing was created.
+\item
+  nrOfPictures - The number of pictures in the ad.
+\item
+  postalCode - The postal code for the location of the vehicle.
+\item
+  lastSeenOnline - When the crawler saw this ad last online.
+\end{itemize}
+
+    The aim of this project is to clean the dataset and perform some initial
+analysis on it.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{autos.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{encoding} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{latin1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{autos}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+\PY{n}{autos}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 50000 entries, 0 to 49999
+Data columns (total 20 columns):
+ \#   Column               Non-Null Count  Dtype
+---  ------               --------------  -----
+ 0   dateCrawled          50000 non-null  object
+ 1   name                 50000 non-null  object
+ 2   seller               50000 non-null  object
+ 3   offerType            50000 non-null  object
+ 4   price                50000 non-null  object
+ 5   abtest               50000 non-null  object
+ 6   vehicleType          44905 non-null  object
+ 7   yearOfRegistration   50000 non-null  int64
+ 8   gearbox              47320 non-null  object
+ 9   powerPS              50000 non-null  int64
+ 10  model                47242 non-null  object
+ 11  odometer             50000 non-null  object
+ 12  monthOfRegistration  50000 non-null  int64
+ 13  fuelType             45518 non-null  object
+ 14  brand                50000 non-null  object
+ 15  notRepairedDamage    40171 non-null  object
+ 16  dateCreated          50000 non-null  object
+ 17  nrOfPictures         50000 non-null  int64
+ 18  postalCode           50000 non-null  int64
+ 19  lastSeen             50000 non-null  object
+dtypes: int64(5), object(15)
+memory usage: 7.6+ MB
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+           dateCrawled                                               name  \textbackslash{}
+0  2016-03-26 17:47:46                   Peugeot\_807\_160\_NAVTECH\_ON\_BOARD
+1  2016-04-04 13:38:56         BMW\_740i\_4\_4\_Liter\_HAMANN\_UMBAU\_Mega\_Optik
+2  2016-03-26 18:57:24                         Volkswagen\_Golf\_1.6\_United
+3  2016-03-12 16:58:10  Smart\_smart\_fortwo\_coupe\_softouch/F1/Klima/Pan{\ldots}
+4  2016-04-01 14:38:50  Ford\_Focus\_1\_6\_Benzin\_TÜV\_neu\_ist\_sehr\_gepfleg{\ldots}
+
+   seller offerType   price   abtest vehicleType  yearOfRegistration  \textbackslash{}
+0  privat   Angebot  \$5,000  control         bus                2004
+1  privat   Angebot  \$8,500  control   limousine                1997
+2  privat   Angebot  \$8,990     test   limousine                2009
+3  privat   Angebot  \$4,350  control  kleinwagen                2007
+4  privat   Angebot  \$1,350     test       kombi                2003
+
+     gearbox  powerPS   model   odometer  monthOfRegistration fuelType  \textbackslash{}
+0    manuell      158  andere  150,000km                    3      lpg
+1  automatik      286     7er  150,000km                    6   benzin
+2    manuell      102    golf   70,000km                    7   benzin
+3  automatik       71  fortwo   70,000km                    6   benzin
+4    manuell        0   focus  150,000km                    7   benzin
+
+        brand notRepairedDamage          dateCreated  nrOfPictures  \textbackslash{}
+0     peugeot              nein  2016-03-26 00:00:00             0
+1         bmw              nein  2016-04-04 00:00:00             0
+2  volkswagen              nein  2016-03-26 00:00:00             0
+3       smart              nein  2016-03-12 00:00:00             0
+4        ford              nein  2016-04-01 00:00:00             0
+
+   postalCode             lastSeen
+0       79588  2016-04-06 06:45:54
+1       71034  2016-04-06 14:45:08
+2       35394  2016-04-06 20:15:37
+3       33729  2016-03-15 03:16:28
+4       39218  2016-04-01 14:38:50
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Our dataset contains 20 columns, most of which are stored as strings.
+There are a few columns with null values, but no columns have more than
+\textasciitilde20\% null values. There are some columns that contain
+dates stored as strings.
+
+We'll start by cleaning the column names to make the data easier to work
+with.
+
+    \hypertarget{clean-columns}{%
+\subsection{Clean Columns}\label{clean-columns}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Index(['dateCrawled', 'name', 'seller', 'offerType', 'price', 'abtest',
+       'vehicleType', 'yearOfRegistration', 'gearbox', 'powerPS', 'model',
+       'odometer', 'monthOfRegistration', 'fuelType', 'brand',
+       'notRepairedDamage', 'dateCreated', 'nrOfPictures', 'postalCode',
+       'lastSeen'],
+      dtype='object')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We'll make a few changes here:
+
+\begin{itemize}
+\tightlist
+\item
+  Change the columns from camelcase to snakecase.
+\item
+  Change a few wordings to more accurately describe the columns.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{o}{.}\PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date\PYZus{}crawled}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{seller}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{offer\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ab\PYZus{}test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vehicle\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{registration\PYZus{}year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gearbox}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{power\PYZus{}ps}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{odometer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{registration\PYZus{}month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fuel\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{brand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unrepaired\PYZus{}damage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ad\PYZus{}created}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num\PYZus{}photos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{postal\PYZus{}code}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}seen}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{autos}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}           
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+          date\_crawled                                               name  \textbackslash{}
+0  2016-03-26 17:47:46                   Peugeot\_807\_160\_NAVTECH\_ON\_BOARD
+1  2016-04-04 13:38:56         BMW\_740i\_4\_4\_Liter\_HAMANN\_UMBAU\_Mega\_Optik
+2  2016-03-26 18:57:24                         Volkswagen\_Golf\_1.6\_United
+3  2016-03-12 16:58:10  Smart\_smart\_fortwo\_coupe\_softouch/F1/Klima/Pan{\ldots}
+4  2016-04-01 14:38:50  Ford\_Focus\_1\_6\_Benzin\_TÜV\_neu\_ist\_sehr\_gepfleg{\ldots}
+
+   seller offer\_type   price  ab\_test vehicle\_type  registration\_year  \textbackslash{}
+0  privat    Angebot  \$5,000  control          bus               2004
+1  privat    Angebot  \$8,500  control    limousine               1997
+2  privat    Angebot  \$8,990     test    limousine               2009
+3  privat    Angebot  \$4,350  control   kleinwagen               2007
+4  privat    Angebot  \$1,350     test        kombi               2003
+
+     gearbox  power\_ps   model   odometer  registration\_month fuel\_type  \textbackslash{}
+0    manuell       158  andere  150,000km                   3       lpg
+1  automatik       286     7er  150,000km                   6    benzin
+2    manuell       102    golf   70,000km                   7    benzin
+3  automatik        71  fortwo   70,000km                   6    benzin
+4    manuell         0   focus  150,000km                   7    benzin
+
+        brand unrepaired\_damage           ad\_created  num\_photos  postal\_code  \textbackslash{}
+0     peugeot              nein  2016-03-26 00:00:00           0        79588
+1         bmw              nein  2016-04-04 00:00:00           0        71034
+2  volkswagen              nein  2016-03-26 00:00:00           0        35394
+3       smart              nein  2016-03-12 00:00:00           0        33729
+4        ford              nein  2016-04-01 00:00:00           0        39218
+
+             last\_seen
+0  2016-04-06 06:45:54
+1  2016-04-06 14:45:08
+2  2016-04-06 20:15:37
+3  2016-03-15 03:16:28
+4  2016-04-01 14:38:50
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{initial-exploration-and-cleaning}{%
+\subsection{Initial Exploration and
+Cleaning}\label{initial-exploration-and-cleaning}}
+
+    We'll start by exploring the data to find obvious areas where we can
+clean the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+               date\_crawled         name  seller offer\_type  price ab\_test  \textbackslash{}
+count                 50000        50000   50000      50000  50000   50000
+unique                48213        38754       2          2   2357       2
+top     2016-03-19 17:36:18  Ford\_Fiesta  privat    Angebot     \$0    test
+freq                      3           78   49999      49999   1421   25756
+mean                    NaN          NaN     NaN        NaN    NaN     NaN
+std                     NaN          NaN     NaN        NaN    NaN     NaN
+min                     NaN          NaN     NaN        NaN    NaN     NaN
+25\%                     NaN          NaN     NaN        NaN    NaN     NaN
+50\%                     NaN          NaN     NaN        NaN    NaN     NaN
+75\%                     NaN          NaN     NaN        NaN    NaN     NaN
+max                     NaN          NaN     NaN        NaN    NaN     NaN
+
+       vehicle\_type  registration\_year  gearbox      power\_ps  model  \textbackslash{}
+count         44905       50000.000000    47320  50000.000000  47242
+unique            8                NaN        2           NaN    245
+top       limousine                NaN  manuell           NaN   golf
+freq          12859                NaN    36993           NaN   4024
+mean            NaN        2005.073280      NaN    116.355920    NaN
+std             NaN         105.712813      NaN    209.216627    NaN
+min             NaN        1000.000000      NaN      0.000000    NaN
+25\%             NaN        1999.000000      NaN     70.000000    NaN
+50\%             NaN        2003.000000      NaN    105.000000    NaN
+75\%             NaN        2008.000000      NaN    150.000000    NaN
+max             NaN        9999.000000      NaN  17700.000000    NaN
+
+         odometer  registration\_month fuel\_type       brand unrepaired\_damage  \textbackslash{}
+count       50000        50000.000000     45518       50000             40171
+unique         13                 NaN         7          40                 2
+top     150,000km                 NaN    benzin  volkswagen              nein
+freq        32424                 NaN     30107       10687             35232
+mean          NaN            5.723360       NaN         NaN               NaN
+std           NaN            3.711984       NaN         NaN               NaN
+min           NaN            0.000000       NaN         NaN               NaN
+25\%           NaN            3.000000       NaN         NaN               NaN
+50\%           NaN            6.000000       NaN         NaN               NaN
+75\%           NaN            9.000000       NaN         NaN               NaN
+max           NaN           12.000000       NaN         NaN               NaN
+
+                 ad\_created  num\_photos   postal\_code            last\_seen
+count                 50000     50000.0  50000.000000                50000
+unique                   76         NaN           NaN                39481
+top     2016-04-03 00:00:00         NaN           NaN  2016-04-07 06:17:27
+freq                   1946         NaN           NaN                    8
+mean                    NaN         0.0  50813.627300                  NaN
+std                     NaN         0.0  25779.747957                  NaN
+min                     NaN         0.0   1067.000000                  NaN
+25\%                     NaN         0.0  30451.000000                  NaN
+50\%                     NaN         0.0  49577.000000                  NaN
+75\%                     NaN         0.0  71540.000000                  NaN
+max                     NaN         0.0  99998.000000                  NaN
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Our initial observations:
+
+\begin{itemize}
+\tightlist
+\item
+  There are a number of text columns where all (or nearly all) of the
+  values are the same:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    seller
+  \item
+    offer\_type
+  \end{itemize}
+\item
+  The num\_photos column looks odd, we'll need to investigate this
+  further.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num\PYZus{}photos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+num\_photos
+0    50000
+Name: count, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    It looks like the num\_photos column has 0 for every column. We'll drop
+this column, plus the other two we noted as mostly one value.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos} \PY{o}{=} \PY{n}{autos}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num\PYZus{}photos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{seller}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{offer\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    There are two columns, price and odometer, which are numeric values with
+extra characters being stored as text. We'll clean and convert these.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                  \PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                  \PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                  \PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{p}{)}
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}                 
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0    5000
+1    8500
+2    8990
+3    4350
+4    1350
+Name: price, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{odometer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{odometer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                     \PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{km}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                     \PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                     \PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{p}{)}
+\PY{n}{autos}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{odometer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{odometer\PYZus{}km}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{True}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{odometer\PYZus{}km}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0    150000
+1    150000
+2     70000
+3     70000
+4    150000
+Name: odometer\_km, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{exploring-the-odometer-and-price-columns}{%
+\subsection{Exploring the Odometer and Price
+Columns}\label{exploring-the-odometer-and-price-columns}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{odometer\PYZus{}km}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+odometer\_km
+150000    32424
+125000     5170
+100000     2169
+90000      1757
+80000      1436
+70000      1230
+60000      1164
+50000      1027
+5000        967
+40000       819
+30000       789
+20000       784
+10000       264
+Name: count, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can see that the values in this field are rounded, which might
+indicate that sellers had to choose from pre-set options for this field.
+Additionally, there are more high mileage than low mileage vehicles.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{)}
+           
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(2357,)
+count    5.000000e+04
+mean     9.840044e+03
+std      4.811044e+05
+min      0.000000e+00
+25\%      1.100000e+03
+50\%      2.950000e+03
+75\%      7.200000e+03
+max      1.000000e+08
+Name: price, dtype: float64
+price
+0       1421
+500      781
+1500     734
+2500     643
+1000     639
+1200     639
+600      531
+800      498
+3500     498
+2000     460
+999      434
+750      433
+900      420
+650      419
+850      410
+700      395
+4500     394
+300      384
+2200     382
+950      379
+Name: count, dtype: int64
+    \end{Verbatim}
+
+    Again, the prices in this column seem rounded, however given there are
+2357 unique values in the column, that may just be people's tendency to
+round prices on the site.
+
+There are 1,421 cars listed with \$0 price - given that this is only 2\%
+of the of the cars, we might consider removing these rows. The maximum
+price is one hundred million dollars, which seems a lot, let's look at
+the highest prices further.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{n}{ascending} \PY{o}{=} \PY{k+kc}{False} \PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+price
+99999999    1
+27322222    1
+12345678    3
+11111111    2
+10000000    1
+3890000     1
+1300000     1
+1234566     1
+999999      2
+999990      1
+350000      1
+345000      1
+299000      1
+295000      1
+265000      1
+259000      1
+250000      1
+220000      1
+198000      1
+197000      1
+Name: count, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{n}{ascending} \PY{o}{=} \PY{k+kc}{True} \PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+price
+0     1421
+1      156
+2        3
+3        1
+5        2
+8        1
+9        1
+10       7
+11       2
+12       3
+13       2
+14       1
+15       2
+17       3
+18       1
+20       4
+25       5
+29       1
+30       7
+35       1
+Name: count, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    There are a number of listings with prices below 30, including about
+1500 at 0. There are also a small number of listings with very high
+values, including 14 at around or over \$1 million.
+
+Given that eBay is an auction site, there could legitimately be items
+where the opening bid is 1.We will keep the 1 items, but remove anything
+above \$350,000,since it seems that prices increase steadily to that
+number and then jump up to less realistic numbers.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos} \PY{o}{=} \PY{n}{autos}\PY{p}{[}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{between}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{351000}\PY{p}{)}\PY{p}{]}
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}              
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+count     48565.000000
+mean       5888.935591
+std        9059.854754
+min           1.000000
+25\%        1200.000000
+50\%        3000.000000
+75\%        7490.000000
+max      350000.000000
+Name: price, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{exploring-the-date-columns}{%
+\subsection{Exploring the Date
+Columns}\label{exploring-the-date-columns}}
+
+    There are a number of columns with date information:
+
+\begin{itemize}
+\tightlist
+\item
+  date\_crawled
+\item
+  registration\_month
+\item
+  registration\_year
+\item
+  ad\_created
+\item
+  last\_seen
+\end{itemize}
+
+These are a combination of dates that were crawled, and dates with
+meta-information from the crawler. The non-registration dates are stored
+as strings.
+
+We'll explore each of these columns to learn more about the listings.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date\PYZus{}crawled}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ad\PYZus{}created}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}seen}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+          date\_crawled           ad\_created            last\_seen
+0  2016-03-26 17:47:46  2016-03-26 00:00:00  2016-04-06 06:45:54
+1  2016-04-04 13:38:56  2016-04-04 00:00:00  2016-04-06 14:45:08
+2  2016-03-26 18:57:24  2016-03-26 00:00:00  2016-04-06 20:15:37
+3  2016-03-12 16:58:10  2016-03-12 00:00:00  2016-03-15 03:16:28
+4  2016-04-01 14:38:50  2016-04-01 00:00:00  2016-04-01 14:38:50
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{date\PYZus{}crawled}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{o}{.}\PY{n}{str}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}
+        \PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{dropna}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+        \PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{p}{)}
+        \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+date\_crawled
+2016-03-05    0.025327
+2016-03-06    0.014043
+2016-03-07    0.036014
+2016-03-08    0.033296
+2016-03-09    0.033090
+2016-03-10    0.032184
+2016-03-11    0.032575
+2016-03-12    0.036920
+2016-03-13    0.015670
+2016-03-14    0.036549
+2016-03-15    0.034284
+2016-03-16    0.029610
+2016-03-17    0.031628
+2016-03-18    0.012911
+2016-03-19    0.034778
+2016-03-20    0.037887
+2016-03-21    0.037373
+2016-03-22    0.032987
+2016-03-23    0.032225
+2016-03-24    0.029342
+2016-03-25    0.031607
+2016-03-26    0.032204
+2016-03-27    0.031092
+2016-03-28    0.034860
+2016-03-29    0.034099
+2016-03-30    0.033687
+2016-03-31    0.031834
+2016-04-01    0.033687
+2016-04-02    0.035478
+2016-04-03    0.038608
+2016-04-04    0.036487
+2016-04-05    0.013096
+2016-04-06    0.003171
+2016-04-07    0.001400
+Name: proportion, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{date\PYZus{}crawled}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{o}{.}\PY{n}{str}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}
+        \PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{dropna}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+        \PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{)}
+        \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+date\_crawled
+2016-04-07    0.001400
+2016-04-06    0.003171
+2016-03-18    0.012911
+2016-04-05    0.013096
+2016-03-06    0.014043
+2016-03-13    0.015670
+2016-03-05    0.025327
+2016-03-24    0.029342
+2016-03-16    0.029610
+2016-03-27    0.031092
+2016-03-25    0.031607
+2016-03-17    0.031628
+2016-03-31    0.031834
+2016-03-10    0.032184
+2016-03-26    0.032204
+2016-03-23    0.032225
+2016-03-11    0.032575
+2016-03-22    0.032987
+2016-03-09    0.033090
+2016-03-08    0.033296
+2016-04-01    0.033687
+2016-03-30    0.033687
+2016-03-29    0.034099
+2016-03-15    0.034284
+2016-03-19    0.034778
+2016-03-28    0.034860
+2016-04-02    0.035478
+2016-03-07    0.036014
+2016-04-04    0.036487
+2016-03-14    0.036549
+2016-03-12    0.036920
+2016-03-21    0.037373
+2016-03-20    0.037887
+2016-04-03    0.038608
+Name: proportion, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Looks like the site was crawled daily over roughly a one month period in
+March and April 2016. The distribution of listings crawled on each day
+is roughly uniform.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{last\PYZus{}seen}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{o}{.}\PY{n}{str}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}
+        \PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{dropna}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+        \PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{p}{)}
+        \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+last\_seen
+2016-03-05    0.001071
+2016-03-06    0.004324
+2016-03-07    0.005395
+2016-03-08    0.007413
+2016-03-09    0.009595
+2016-03-10    0.010666
+2016-03-11    0.012375
+2016-03-12    0.023783
+2016-03-13    0.008895
+2016-03-14    0.012602
+2016-03-15    0.015876
+2016-03-16    0.016452
+2016-03-17    0.028086
+2016-03-18    0.007351
+2016-03-19    0.015834
+2016-03-20    0.020653
+2016-03-21    0.020632
+2016-03-22    0.021373
+2016-03-23    0.018532
+2016-03-24    0.019767
+2016-03-25    0.019211
+2016-03-26    0.016802
+2016-03-27    0.015649
+2016-03-28    0.020859
+2016-03-29    0.022341
+2016-03-30    0.024771
+2016-03-31    0.023783
+2016-04-01    0.022794
+2016-04-02    0.024915
+2016-04-03    0.025203
+2016-04-04    0.024483
+2016-04-05    0.124761
+2016-04-06    0.221806
+2016-04-07    0.131947
+Name: proportion, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The crawler recorded the date it last saw any listing, which allows us
+to determine on what day a listing was removed, presumably because the
+car was sold.
+
+The last three days contain a disproportionate amount of `last seen'
+values. Given that these are 6-10x the values from the previous days,
+it's unlikely that there was a massive spike in sales, and more likely
+that these values are to do with the crawling period ending and don't
+indicate car sales.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ad\PYZus{}created}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+
+\PY{p}{(}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ad\PYZus{}created}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+ \PY{o}{.}\PY{n}{str}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}
+ \PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize} \PY{o}{=} \PY{k+kc}{True} \PY{p}{,} \PY{n}{dropna} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)}
+ \PY{o}{.}\PY{n}{sort\PYZus{}index}\PY{p}{(}\PY{p}{)}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(76,)
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+ad\_created
+2015-06-11    0.000021
+2015-08-10    0.000021
+2015-09-09    0.000021
+2015-11-10    0.000021
+2015-12-05    0.000021
+                {\ldots}
+2016-04-03    0.038855
+2016-04-04    0.036858
+2016-04-05    0.011819
+2016-04-06    0.003253
+2016-04-07    0.001256
+Name: proportion, Length: 76, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    There is a large variety of ad created dates. Most fall within 1-2
+months of the listing date, but a few are quite old, with the oldest at
+around 9 months.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{registration\PYZus{}year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+count    48565.000000
+mean      2004.755421
+std         88.643887
+min       1000.000000
+25\%       1999.000000
+50\%       2004.000000
+75\%       2008.000000
+max       9999.000000
+Name: registration\_year, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The year that the car was first registered will likely indicate the age
+of the car. Looking at this column, we note some odd values. The minimum
+value is 1000, long before cars were invented and the maximum is 9999,
+many years into the future.
+
+    \hypertarget{dealing-with-incorrect-registration-year-data}{%
+\subsection{Dealing with Incorrect Registration Year
+Data}\label{dealing-with-incorrect-registration-year-data}}
+
+    Because a car can't be first registered before the listing was seen, any
+vehicle with a registration year above 2016 is definitely inaccurate.
+Determining the earliest valid year is more difficult. Realistically, it
+could be somewhere in the first few decades of the 1900s.
+
+One option is to remove the listings with these values. Let's determine
+what percentage of our data has invalid values in this column:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{o}{\PYZti{}}\PY{n}{autos}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{registration\PYZus{}year}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{between}\PY{p}{(}\PY{l+m+mi}{1900}\PY{p}{,}\PY{l+m+mi}{2016}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{n}{autos}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+np.float64(0.038793369710697)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Given that this is less than 4\% of our data, we will remove these rows.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Many ways to select rows in a dataframe that fall within a value range for a column.}
+\PY{c+c1}{\PYZsh{} Using `Series.between()` is one way.}
+\PY{n}{autos}\PY{o}{=}\PY{n}{autos}\PY{p}{[}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{registration\PYZus{}year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{between}\PY{p}{(}\PY{l+m+mi}{1900}\PY{p}{,}\PY{l+m+mi}{2016}\PY{p}{)}\PY{p}{]}
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{registration\PYZus{}year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+registration\_year
+2000    0.067608
+2005    0.062895
+1999    0.062060
+2004    0.057904
+2003    0.057818
+2006    0.057197
+2001    0.056468
+2002    0.053255
+1998    0.050620
+2007    0.048778
+Name: proportion, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    It appears that most of the vehicles were first registered in the past
+20 years.
+
+    \hypertarget{exploring-price-by-brand}{%
+\subsection{Exploring Price by Brand}\label{exploring-price-by-brand}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{brand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+brand
+volkswagen        0.211264
+bmw               0.110045
+opel              0.107581
+mercedes\_benz     0.096463
+audi              0.086566
+ford              0.069900
+renault           0.047150
+peugeot           0.029841
+fiat              0.025642
+seat              0.018273
+skoda             0.016409
+nissan            0.015274
+mazda             0.015188
+smart             0.014160
+citroen           0.014010
+toyota            0.012703
+hyundai           0.010025
+sonstige\_autos    0.009811
+volvo             0.009147
+mini              0.008762
+mitsubishi        0.008226
+honda             0.007840
+kia               0.007069
+alfa\_romeo        0.006641
+porsche           0.006127
+suzuki            0.005934
+chevrolet         0.005698
+chrysler          0.003513
+dacia             0.002635
+daihatsu          0.002506
+jeep              0.002271
+subaru            0.002142
+land\_rover        0.002099
+saab              0.001649
+jaguar            0.001564
+daewoo            0.001500
+trabant           0.001392
+rover             0.001328
+lancia            0.001071
+lada              0.000578
+Name: proportion, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    German manufacturers represent four out of the top five brands, almost
+50\% of the overall listings. Volkswagen is by far the most popular
+brand, with approximately double the cars for sale of the next two
+brands combined.
+
+There are lots of brands that don't have a significant percentage of
+listings, so we will limit our analysis to brands representing more than
+5\% of total listings.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{brand\PYZus{}counts} \PY{o}{=} \PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{brand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{common\PYZus{}brands} \PY{o}{=} \PY{n}{brand\PYZus{}counts}\PY{p}{[}\PY{n}{brand\PYZus{}counts} \PY{o}{\PYZgt{}} \PY{l+m+mf}{.05}\PY{p}{]}\PY{o}{.}\PY{n}{index}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{common\PYZus{}brands}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Index(['volkswagen', 'bmw', 'opel', 'mercedes\_benz', 'audi', 'ford'],
+dtype='object', name='brand')
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{brand\PYZus{}mean\PYZus{}prices} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{brand} \PY{o+ow}{in}  \PY{n}{common\PYZus{}brands}\PY{p}{:}
+    \PY{n}{brand\PYZus{}only} \PY{o}{=} \PY{n}{autos}\PY{p}{[}\PY{n}{autos}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{brand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{n}{brand}\PY{p}{]}
+    \PY{n}{mean\PYZus{}price} \PY{o}{=} \PY{n}{brand\PYZus{}only}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{n}{brand\PYZus{}mean\PYZus{}prices}\PY{p}{[}\PY{n}{brand}\PY{p}{]} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{mean\PYZus{}price}\PY{p}{)}
+    
+\PY{n}{brand\PYZus{}mean\PYZus{}prices} 
+    
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\{'volkswagen': 5402,
+ 'bmw': 8332,
+ 'opel': 2975,
+ 'mercedes\_benz': 8628,
+ 'audi': 9336,
+ 'ford': 3749\}
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Of the top 5 brands, there is a distinct price gap:
+
+\begin{itemize}
+\tightlist
+\item
+  Audi, BMW and Mercedes Benz are more expensive
+\item
+  Ford and Opel are less expensive
+\item
+  Volkswagen is in between - this may explain its popularity, it may be
+  a `best of 'both worlds' option.
+\end{itemize}
+
+    \hypertarget{exploring-mileage}{%
+\subsection{Exploring Mileage}\label{exploring-mileage}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{bmp\PYZus{}series} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{brand\PYZus{}mean\PYZus{}prices}\PY{p}{)}
+\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{bmp\PYZus{}series}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean\PYZus{}price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+               mean\_price
+volkswagen           5402
+bmw                  8332
+opel                 2975
+mercedes\_benz        8628
+audi                 9336
+ford                 3749
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{brand\PYZus{}mean\PYZus{}mileage} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{brand} \PY{o+ow}{in} \PY{n}{common\PYZus{}brands}\PY{p}{:}
+    \PY{n}{brand\PYZus{}only} \PY{o}{=} \PY{n}{autos}\PY{p}{[}\PY{n}{autos}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{brand}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{n}{brand}\PY{p}{]}
+    \PY{n}{mean\PYZus{}mileage} \PY{o}{=} \PY{n}{brand\PYZus{}only}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{odometer\PYZus{}km}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+    \PY{n}{brand\PYZus{}mean\PYZus{}mileage}\PY{p}{[}\PY{n}{brand}\PY{p}{]} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{mean\PYZus{}mileage}\PY{p}{)}
+    
+\PY{n}{mean\PYZus{}mileage} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{brand\PYZus{}mean\PYZus{}mileage}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{mean\PYZus{}price} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{brand\PYZus{}mean\PYZus{}prices}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{brand\PYZus{}info} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{mean\PYZus{}mileage}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean\PYZus{}mileage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{brand\PYZus{}info}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+               mean\_mileage
+bmw                  132572
+mercedes\_benz        130788
+opel                 129310
+audi                 129157
+volkswagen           128707
+ford                 124266
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{brand\PYZus{}info}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean\PYZus{}price}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mean\PYZus{}price}
+\PY{n}{brand\PYZus{}info}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+               mean\_mileage  mean\_price
+bmw                  132572        8332
+mercedes\_benz        130788        8628
+opel                 129310        2975
+audi                 129157        9336
+volkswagen           128707        5402
+ford                 124266        3749
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The range of car mileages does not vary as much as the prices do by
+brand, instead all falling within 10\% for the top brands. There is a
+slight trend to the more expensive vehicles having higher mileage, with
+the less expensive vehicles having lower mileage.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
