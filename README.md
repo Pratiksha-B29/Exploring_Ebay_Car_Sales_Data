@@ -80,6 +80,12 @@ This project involved cleaning and analyzing a real-world dataset of used cars f
 - Python (Pandas, NumPy)
 - Jupyter Notebook
 
+## Contacts
+
+[LinkedIn](https://www.linkedin.com/in/pratikshabajpai29/)
+
+[Email](@pratikshabj77@gmail.com)
+
 
 
   
