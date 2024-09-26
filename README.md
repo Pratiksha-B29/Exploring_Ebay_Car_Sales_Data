@@ -77,7 +77,7 @@ This project involved cleaning and analyzing a real-world dataset of used cars f
 
 ## Tools & Libraries Used
 
-- Python (Pandas, NumPy, Matplotlib, Seaborn)
+- Python (Pandas, NumPy)
 - Jupyter Notebook
 
 
